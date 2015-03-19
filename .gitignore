@@ -1,0 +1,9 @@
+/web/bundles/
+/app/config/parameters.yml
+/app/cache/*
+/app/logs/*
+/vendor/
+/bin/
+/src/Acme/
+/web/bundles
+
