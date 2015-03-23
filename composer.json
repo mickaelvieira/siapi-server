@@ -18,6 +18,10 @@
         {
             "type": "vcs",
             "url": "https://github.com/mickaelvieira/ContentNegotiation.git"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/mickaelvieira/imagery.git"
         }
     ],
     "require": {
@@ -42,7 +46,8 @@
         "willdurand/rest-extra-bundle": "~1.0",
         "mvieira/siapi": "dev-master",
         "mvieira/collection-json": "dev-master",
-        "mvieira/content-negotiation": "dev-master"
+        "mvieira/content-negotiation": "dev-master",
+        "mvieira/imagery": "dev-master"
     },
     "require-dev": {
         "phpspec/phpspec": "~2.0",

@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "01a4370a5ace8b83bc3decf37ce13f77",
+    "hash": "8d55d5725211e8bb3acc2062dd5e3eed",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -1846,17 +1846,62 @@
             "time": "2015-03-17 15:24:59"
         },
         {
+            "name": "mvieira/imagery",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mickaelvieira/imagery.git",
+                "reference": "a67d50c5c320379cfea77f2545b002a89d256832"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mickaelvieira/imagery/zipball/a67d50c5c320379cfea77f2545b002a89d256832",
+                "reference": "a67d50c5c320379cfea77f2545b002a89d256832",
+                "shasum": ""
+            },
+            "require": {
+                "php": "~5.4"
+            },
+            "require-dev": {
+                "mikey179/vfsstream": "1.4.*@dev",
+                "phpspec/phpspec": "~2.0",
+                "squizlabs/php_codesniffer": "1.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Imagery\\": "src/Imagery/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Mickael Vieira",
+                    "email": "contact@mickael-vieira.com",
+                    "homepage": "http://mickael-vieira.com"
+                }
+            ],
+            "homepage": "https://github.com/mickaelvieira/imagery",
+            "support": {
+                "source": "https://github.com/mickaelvieira/imagery/tree/master",
+                "issues": "https://github.com/mickaelvieira/imagery/issues"
+            },
+            "time": "2015-03-23 20:28:18"
+        },
+        {
             "name": "mvieira/siapi",
             "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mickaelvieira/siapi.git",
-                "reference": "0659aa59a4303f7d316a449d2b0c2c62d5ff8c46"
+                "reference": "e1e331fabbd1ea6378545f305a43eea808661c33"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mickaelvieira/siapi/zipball/0659aa59a4303f7d316a449d2b0c2c62d5ff8c46",
-                "reference": "0659aa59a4303f7d316a449d2b0c2c62d5ff8c46",
+                "url": "https://api.github.com/repos/mickaelvieira/siapi/zipball/e1e331fabbd1ea6378545f305a43eea808661c33",
+                "reference": "e1e331fabbd1ea6378545f305a43eea808661c33",
                 "shasum": ""
             },
             "require": {
@@ -1896,7 +1941,7 @@
                 "source": "https://github.com/mickaelvieira/siapi/tree/master",
                 "issues": "https://github.com/mickaelvieira/siapi/issues"
             },
-            "time": "2015-03-19 13:07:08"
+            "time": "2015-03-19 19:44:12"
         },
         {
             "name": "nelmio/api-doc-bundle",
@@ -3544,7 +3589,8 @@
         "willdurand/hateoas-bundle": 20,
         "mvieira/siapi": 20,
         "mvieira/collection-json": 20,
-        "mvieira/content-negotiation": 20
+        "mvieira/content-negotiation": 20,
+        "mvieira/imagery": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
