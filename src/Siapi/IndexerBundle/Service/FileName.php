@@ -22,4 +22,18 @@ final class FileName
         }
         return $fileName;
     }
+
+    /**
+     * @param string $fileName
+     * @param string $suffix
+     * @return string
+     */
+    public function appendSuffix($fileName, $suffix)
+    {
+        $parts     = explode(".", $fileName);
+        $extension = array_pop($parts);
+        $fileName  = implode(".", $parts);
+
+        return sprintf("%s-%s.%s", $fileName, $suffix, $extension);
+    }
 }
