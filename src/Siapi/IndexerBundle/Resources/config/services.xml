@@ -6,9 +6,12 @@
 
     <parameters>
         <parameter key="siapi_indexer.nasa.endpoint">http://www.jpl.nasa.gov/spaceimages/details.php</parameter>
+        <parameter key="siapi_indexer.images.directory">/home/mickael/Development/siapi-server/web/images/</parameter>
         <parameter key="siapi_indexer.command_indexer.class">Siapi\IndexerBundle\Command\IndexerCommand</parameter>
         <parameter key="siapi_indexer.service_indexer.class">Siapi\IndexerBundle\Service\Indexer</parameter>
         <parameter key="siapi_indexer.service_crawler.class">Siapi\IndexerBundle\Service\Crawler</parameter>
+        <parameter key="siapi_indexer.service_images.class">Siapi\IndexerBundle\Service\Images</parameter>
+        <parameter key="siapi_indexer.service_filename.class">Siapi\IndexerBundle\Service\FileName</parameter>
     </parameters>
 
     <services>
@@ -17,10 +20,21 @@
                  class="%siapi_indexer.service_crawler.class%">
         </service>
 
+        <service id="siapi_indexer.service.filename"
+                 class="%siapi_indexer.service_filename.class%">
+        </service>
+
+        <service id="siapi_indexer.service.images"
+                 class="%siapi_indexer.service_images.class%">
+            <argument>%siapi_indexer.images.directory%</argument>
+            <argument type="service" id="siapi_indexer.service.filename" />
+        </service>
+
         <service id="siapi_indexer.service.indexer"
                  class="%siapi_indexer.service_indexer.class%">
             <argument>%siapi_indexer.nasa.endpoint%</argument>
             <argument type="service" id="siapi_indexer.service.crawler" />
+            <argument type="service" id="siapi_indexer.service.images" />
         </service>
 
         <service id="siapi_indexer.command.indexer"
