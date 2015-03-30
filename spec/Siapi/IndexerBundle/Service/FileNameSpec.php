@@ -36,7 +36,7 @@ class FileNameSpec extends ObjectBehavior
     {
         $this->getFileNameFromUrl('http://photojournal.jpl.nasa.gov/jpeg/PIA18295.php')->shouldBeNull();
     }
-    
+
     function it_should_append_a_suffix()
     {
         $this->appendSuffix('file.Name.php', 'suffix')->shouldBeEqualTo('file.Name-suffix.php');

@@ -15,7 +15,7 @@ final class FileName
         $pathName = parse_url((string)$url, PHP_URL_PATH);
 
         if ($pathName) {
-            $result = end(explode("/", $pathName));
+            $result = end(explode(DIRECTORY_SEPARATOR, $pathName));
             if (preg_match("/(jpg|JPG)$/", $result)) {
                 $fileName = $result;
             }
