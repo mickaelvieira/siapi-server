@@ -2,11 +2,15 @@
 
 namespace Siapi\IndexerBundle\Entity;
 
-use SplFileInfo;
 use JsonSerializable;
 
-class Image extends SplFileInfo implements JsonSerializable
+class Image implements JsonSerializable
 {
+    /**
+     * @var string
+     */
+    private $name;
+
     /**
      * @var string
      */
@@ -18,34 +22,19 @@ class Image extends SplFileInfo implements JsonSerializable
     private $height;
 
     /**
-     * @var integer
-     */
-    private $imageType;
-
-    /**
      * @var string
      */
     private $mimeType;
 
     /**
-     * @param $file_name
+     * @var int
      */
-    public function __construct($file_name)
-    {
-        parent::__construct($file_name);
-        $this->extractImageInfo();
-    }
+    private $size;
 
-    private function extractImageInfo()
-    {
-        $info = getimagesize($this->getRealPath());
-        if ($info) {
-            $this->setWidth($info[0]);
-            $this->setHeight($info[1]);
-            $this->setImageType($info[2]);
-            $this->setMimeType($info['mime']);
-        }
-    }
+    /**
+     * @var string
+     */
+    private $filename;
 
     /**
      * @return string
@@ -80,22 +69,6 @@ class Image extends SplFileInfo implements JsonSerializable
     }
 
     /**
-     * @return int
-     */
-    public function getImageType()
-    {
-        return $this->imageType;
-    }
-
-    /**
-     * @param int $imageType
-     */
-    public function setImageType($imageType)
-    {
-        $this->imageType = $imageType;
-    }
-
-    /**
      * @return string
      */
     public function getWidth()
@@ -112,16 +85,66 @@ class Image extends SplFileInfo implements JsonSerializable
     }
 
     /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string $name
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * @return int
+     */
+    public function getSize()
+    {
+        return $this->size;
+    }
+
+    /**
+     * @param int $size
+     */
+    public function setSize($size)
+    {
+        $this->size = $size;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFilename()
+    {
+        return $this->filename;
+    }
+
+    /**
+     * @param string $filename
+     */
+    public function setFilename($filename)
+    {
+        $this->filename = $filename;
+    }
+
+    /**
+     * @return array
+     */
+    public function toArray()
+    {
+        return get_object_vars($this);
+    }
+
+    /**
      * @return array
      */
     public function jsonSerialize()
     {
-        return [
-            'width'    => $this->width,
-            'height'   => $this->height,
-            'mimeType' => $this->mimeType,
-            'filename' => $this->getBasename(),
-            'size'     => $this->getSize(),
-        ];
+        return $this->toArray();
     }
 }

@@ -42,7 +42,7 @@ class Document implements JsonSerializable
     private $source;
 
     /**
-     * @var array
+     * @var \Siapi\IndexerBundle\Entity\Image[]
      */
     private $formats = [];
 
@@ -185,8 +185,25 @@ class Document implements JsonSerializable
     /**
      * @return array
      */
+    public function toArray()
+    {
+        $data = get_object_vars($this);
+        $formats = [];
+
+        foreach ($this->formats as $format) {
+            array_push($formats, $format->toArray());
+        }
+
+        $data['formats'] = $formats;
+
+        return $data;
+    }
+
+    /**
+     * @return array
+     */
     public function jsonSerialize()
     {
-        return get_object_vars($this);
+        return $this->toArray();
     }
 }
