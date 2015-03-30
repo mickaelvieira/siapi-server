@@ -22,10 +22,11 @@ final class Crawler
     }
 
     /**
-     * @param $url
+     * @param string $url
+     * @param callable $callback
      * @return array
      */
-    public function getInformation($url)
+    public function parse($url, callable $callback)
     {
         $information = [];
 
@@ -34,24 +35,49 @@ final class Crawler
         $information['title']   = trim($crawler->filter('h1.article_title')->text());
         $information['content'] = trim($crawlerContent = $crawler->filter('.wysiwyg_content')->text());
 
-        $crawlerInfo = $crawler->filter('.image_detail_module');
-        $crawlerLink = clone $crawlerInfo;
+        $crawler = $crawler->filter('.image_detail_module');
 
-        $crawlerLink = $crawlerLink->filter('div.download_tiff a');
-        $links = $crawlerLink->links();
+        $details = $this->getInformation(clone $crawler);
+        $images  = $this->getJpegUrl(clone $crawler);
 
-        $jpgs = array_filter($links, function (Link $link) {
+        $information = array_merge($information, $images, $details);
+
+        $callback($information);
+    }
+
+    /**
+     * @param \Symfony\Component\DomCrawler\Crawler $crawler
+     * @return array
+     */
+    private function getJpegUrl($crawler)
+    {
+        $images = [];
+
+        $crawler = $crawler->filter('div.download_tiff a');
+        $links   = $crawler->links();
+
+        $jpeg = array_filter($links, function (Link $link) {
             return (preg_match("/(jpg|JPG)$/", $link->getUri()));
         });
 
-        if (!empty($jpgs)) {
-
-            $jpg = current($jpgs);
-            $information['image'] = $jpg->getUri();
+        if (!empty($jpeg)) {
+            $jpg = current($jpeg);
+            $images['image'] = $jpg->getUri();
         }
 
-        $crawlerInfo = $crawlerInfo->filter('div.mission');
-        $details = $crawlerInfo->filter('p')->each(function (DomCrawler $node, $i) {
+        return $images;
+    }
+
+    /**
+     * @param \Symfony\Component\DomCrawler\Crawler $crawler
+     * @return array
+     */
+    private function getInformation($crawler)
+    {
+        $information = [];
+
+        $crawler = $crawler->filter('div.mission');
+        $details = $crawler->filter('p')->each(function (DomCrawler $node, $i) {
 
             $text = $node->text();
             $parts = explode(":", $text);
