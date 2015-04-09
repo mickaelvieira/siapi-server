@@ -7,14 +7,29 @@
     <parameters>
         <parameter key="siapi_indexer.nasa.endpoint">http://www.jpl.nasa.gov/spaceimages/details.php</parameter>
         <parameter key="siapi_indexer.images.directory">/home/mickael/Development/siapi-server/web/images/</parameter>
+
+        <!-- Command classes -->
+        <parameter key="siapi_indexer.command_generator.class">Siapi\IndexerBundle\Command\GeneratorCommand</parameter>
         <parameter key="siapi_indexer.command_indexer.class">Siapi\IndexerBundle\Command\IndexerCommand</parameter>
+
+        <!-- Command classes -->
+        <parameter key="siapi_indexer.service_generator.class">Siapi\IndexerBundle\Service\Generator</parameter>
         <parameter key="siapi_indexer.service_indexer.class">Siapi\IndexerBundle\Service\Indexer</parameter>
         <parameter key="siapi_indexer.service_crawler.class">Siapi\IndexerBundle\Service\Crawler</parameter>
         <parameter key="siapi_indexer.service_images.class">Siapi\IndexerBundle\Service\Images</parameter>
         <parameter key="siapi_indexer.service_filename.class">Siapi\IndexerBundle\Service\FileName</parameter>
+
+        <!-- Repositories and Entities classes -->
+        <parameter key="siapi_indexer.entity_indexerlog.class">Siapi\IndexerBundle\Entity\IndexerLog</parameter>
+        <parameter key="siapi_indexer.repository_indexerlog.class">Siapi\IndexerBundle\Repository\IndexerLogRepository</parameter>
     </parameters>
 
     <services>
+
+        <service id="siapi_indexer.service.generator"
+                 class="%siapi_indexer.service_generator.class%">
+            <argument type="service" id="siapi_indexer.repository.indexerlog"/>
+        </service>
 
         <service id="siapi_indexer.service.crawler"
                  class="%siapi_indexer.service_crawler.class%">
@@ -37,10 +52,26 @@
             <argument type="service" id="siapi_indexer.service.images" />
         </service>
 
+        <!-- Repositories as a service -->
+        <service id="siapi_indexer.repository.indexerlog"
+                 class="%siapi_indexer.repository_indexerlog.class%"
+                 factory-service="doctrine"
+                 factory-method="getRepository">
+            <argument>%siapi_indexer.entity_indexerlog.class%</argument>
+        </service>
+
+        <!-- Commands as a service -->
         <service id="siapi_indexer.command.indexer"
                  class="%siapi_indexer.command_indexer.class%">
             <argument>~</argument>
             <argument type="service" id="siapi_indexer.service.indexer" />
+            <tag name="console.command" />
+        </service>
+
+        <service id="siapi_indexer.command.generator"
+                 class="%siapi_indexer.command_generator.class%">
+            <argument>~</argument>
+            <argument type="service" id="siapi_indexer.service.generator" />
             <tag name="console.command" />
         </service>
 
