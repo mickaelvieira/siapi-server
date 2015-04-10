@@ -1,11 +1,13 @@
 <?php
 
-
 namespace Siapi\IndexerBundle\Gallery;
-
 
 use Siapi\IndexerBundle\Service\FileName;
 
+/**
+ * Class Gallery
+ * @package Siapi\IndexerBundle\Gallery
+ */
 final class Gallery
 {
 
@@ -26,6 +28,9 @@ final class Gallery
         'large'
     ];
 
+    /**
+     *
+     */
     public function __construct()
     {
         $this->fileName = new FileName();
@@ -33,7 +38,7 @@ final class Gallery
     }
 
     /**
-     * @param $source
+     * @param string $source
      */
     public function create($source)
     {

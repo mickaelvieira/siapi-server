@@ -1,9 +1,11 @@
 <?php
 
-
 namespace Siapi\IndexerBundle\Gallery;
 
-
+/**
+ * Class SizeManager
+ * @package Siapi\IndexerBundle\Gallery
+ */
 final class SizeManager
 {
     /**
@@ -22,7 +24,7 @@ final class SizeManager
     }
 
     /**
-     * @param $name
+     * @param string $name
      * @return \Siapi\IndexerBundle\Gallery\Strategy
      * @throw \LogicException
      */
@@ -33,7 +35,7 @@ final class SizeManager
         });
 
         if (empty($strategies)) {
-            throw new \LogicException(sprintf("Strategy %s does not exist", $name));
+            throw new \LogicException(sprintf("Cannot find strategy with name %s", $name));
         }
 
         return current($strategies);
