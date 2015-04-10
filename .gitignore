@@ -5,3 +5,6 @@
 /vendor/
 /bin/
 /src/Acme/
+/web/copy
+/web/sample
+/web/images
