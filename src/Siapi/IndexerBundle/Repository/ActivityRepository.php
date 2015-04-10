@@ -42,8 +42,8 @@ final class ActivityRepository extends EntityRepository
 
         $qb->select('a')
             ->from('\Siapi\IndexerBundle\Entity\Activity', 'a')
-            ->where('a.isEmpty = :empty')
-            ->andWhere('a.isParsed = :parsed')
+            ->where('a.empty = :empty')
+            ->andWhere('a.parsed = :parsed')
             ->orderBy('a.id', 'ASC')
             ->setParameter('empty', false)
             ->setParameter('parsed', false)

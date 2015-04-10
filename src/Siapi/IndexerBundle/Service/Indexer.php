@@ -60,52 +60,75 @@ final class Indexer
 
     public function process()
     {
-        /*var_dump(getcwd());
+        $logs = $this->activitiesRepository->getUnParsedIds(0, 100);
 
-        $file1 = realpath(getcwd() . "/web/sample/PIA15000.jpg");
-        $file2 = realpath(getcwd() . "/web/sample/PIA15001.jpg");
+        while (count($logs) > 0) {
 
-        var_dump(sha1_file($file1));
-        var_dump(sha1_file($file2));
+            var_dump("---------------------------NEW BATCH---------------------------");
 
-        exit;*/
+            foreach ($logs as $log) {
 
-        $logs = $this->activitiesRepository->getUnParsedIds(0, 10);
+                $pageUrl = sprintf("%s?id=%s", $this->endPoint, $log->getRemoteId());
 
-        foreach ($logs as $log) {
+                var_dump($pageUrl);
 
-            $pageUrl = sprintf("%s?id=%s", $this->endPoint, $log->getRemoteId());
+                $data = null;
 
-            $data = $this->crawler->parse($pageUrl);
+                $log->setParsingError(false);
 
-            if (!empty($data['title'])) {
+                try {
+                    $data = $this->crawler->parse($pageUrl);
+                } catch (\Exception $e) {
 
-                $document = new Document();
-                $document->setTitle($data['title']);
-                $document->setDescription($data['description']);
-                $document->setImageUrl($data['image']);
-                $document->setInstrument($data['instrument']);
-                $document->setMission($data['mission']);
-                $document->setTarget($data['target']);
-                $document->setSpacecraft($data['spacecraft']);
-                $document->setInstrument($data['instrument']);
-                $document->setSourceUrl($pageUrl);
+                    var_dump($e->getMessage());
 
-                $this->documentsRepository->addDocument($document);
-            } else {
-                $log->setIsEmpty(true);
+                    $log->setParsingError(true);
+                }
+
+                if ($data) {
+
+                    if (!empty($data['title'])) {
+
+                        $document = new Document();
+                        $document->setTitle($data['title']);
+                        $document->setDescription($data['description']);
+                        $document->setImageUrl($data['image']);
+                        $document->setInstrument($data['instrument']);
+                        $document->setMission($data['mission']);
+                        $document->setTarget($data['target']);
+                        $document->setSpacecraft($data['spacecraft']);
+                        $document->setInstrument($data['instrument']);
+                        $document->setSourceUrl($pageUrl);
+
+                        $this->documentsRepository->addDocument($document);
+
+                        $log->setDocument($document);
+
+                    } else {
+                        $log->setEmpty(true);
+                    }
+                    $log->setParsed(true);
+                }
+
+
+                //$this->logsRepository->addLog($log);
+                //var_dump($data);
+                var_dump("Is Empty: " . $log->isEmpty());
+                var_dump("is Parsed: " . $log->isParsed());
+                var_dump("Has Error: " . $log->hasParsingError());
+
             }
-            $log->setIsParsed(true);
+            $this->documentsRepository->sync();
 
-            //$this->logsRepository->addLog($log);
-            //var_dump($data);
-            //var_dump($log);
+            var_dump("---------------------------FLUSH---------------------------");
 
+            $logs = $this->activitiesRepository->getUnParsedIds(0, 100);
         }
 
 
+
         //$this->logsRepository->sync();
-        $this->documentsRepository->sync();
+
 
         //var_dump($logs);
 

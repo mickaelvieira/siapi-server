@@ -31,19 +31,30 @@ class Activity
      * @var bool
      * @ORM\Column(type="boolean", name="is_empty", options={"default": false})
      */
-    private $isEmpty = false;
+    private $empty = false;
 
     /**
      * @var bool
      * @ORM\Column(type="boolean", name="is_parsed", options={"default": false})
      */
-    private $isParsed = false;
+    private $parsed = false;
+
+    /**
+     * @var bool
+     * @ORM\Column(type="boolean", name="has_parsing_error", options={"default": false})
+     */
+    private $parsingError = false;
 
     /**
      * @var bool
      * @ORM\Column(type="boolean", name="is_image_downloaded", options={"default": false})
      */
-    private $isImageDownloaded = false;
+    private $imageDownloaded = false;
+
+    /**
+     * @ORM\OneToOne(targetEntity="Siapi\IndexerBundle\Entity\Document", inversedBy="activity")
+     **/
+    private $document;
 
     /**
      * @var \DateTime $created
@@ -88,49 +99,81 @@ class Activity
     /**
      * @return boolean
      */
-    public function isIsEmpty()
+    public function isEmpty()
     {
-        return $this->isEmpty;
+        return $this->empty;
     }
 
     /**
-     * @param boolean $isEmpty
+     * @param boolean $empty
      */
-    public function setIsEmpty($isEmpty)
+    public function setEmpty($empty)
     {
-        $this->isEmpty = $isEmpty;
-    }
-
-    /**
-     * @return boolean
-     */
-    public function isIsParsed()
-    {
-        return $this->isParsed;
-    }
-
-    /**
-     * @param boolean $isParsed
-     */
-    public function setIsParsed($isParsed)
-    {
-        $this->isParsed = $isParsed;
+        $this->empty = $empty;
     }
 
     /**
      * @return boolean
      */
-    public function isIsImageDownloaded()
+    public function isParsed()
     {
-        return $this->isImageDownloaded;
+        return $this->parsed;
     }
 
     /**
-     * @param boolean $isImageDownloaded
+     * @param boolean $parsed
      */
-    public function setIsImageDownloaded($isImageDownloaded)
+    public function setParsed($parsed)
     {
-        $this->isImageDownloaded = $isImageDownloaded;
+        $this->parsed = $parsed;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isImageDownloaded()
+    {
+        return $this->imageDownloaded;
+    }
+
+    /**
+     * @param boolean $imageDownloaded
+     */
+    public function setImageDownloaded($imageDownloaded)
+    {
+        $this->imageDownloaded = $imageDownloaded;
+    }
+
+    /**
+     * @param boolean $parsingError
+     */
+    public function setParsingError($parsingError)
+    {
+        $this->parsingError = $parsingError;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasParsingError()
+    {
+        return $this->parsingError;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDocument()
+    {
+        return $this->document;
+    }
+
+    /**
+     * @param mixed $document
+     */
+    public function setDocument($document)
+    {
+        $this->document = $document;
     }
 
     /**

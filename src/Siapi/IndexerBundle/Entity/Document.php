@@ -79,10 +79,14 @@ class Document implements JsonSerializable
 
     /**
      * @var \Doctrine\Common\Collections\ArrayCollection
-     *
      * @ORM\OneToMany(targetEntity="\Siapi\IndexerBundle\Entity\Image", mappedBy="document")
      **/
     private $formats;
+
+    /**
+     * @ORM\OneToOne(targetEntity="Siapi\IndexerBundle\Entity\Activity", mappedBy="document")
+     **/
+    private $activity;
 
     /**
      * @var \DateTime $created
@@ -274,6 +278,14 @@ class Document implements JsonSerializable
     public function setImageUrl($imageUrl)
     {
         $this->imageUrl = $imageUrl;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getActivity()
+    {
+        return $this->activity;
     }
 
     /**
