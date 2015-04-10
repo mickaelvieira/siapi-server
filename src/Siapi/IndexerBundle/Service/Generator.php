@@ -2,7 +2,7 @@
 
 namespace Siapi\IndexerBundle\Service;
 
-use Siapi\IndexerBundle\Repository\IndexerLogRepository;
+use Siapi\IndexerBundle\Repository\ActivityRepository;
 
 /**
  * Class Generator
@@ -15,9 +15,9 @@ final class Generator
     const END_INDEX   = 20000;
 
     /**
-     * @param \Siapi\IndexerBundle\Repository\IndexerLogRepository $repository
+     * @param \Siapi\IndexerBundle\Repository\ActivityRepository $repository
      */
-    public function __construct(IndexerLogRepository $repository)
+    public function __construct(ActivityRepository $repository)
     {
         $this->repository = $repository;
     }

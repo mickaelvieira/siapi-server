@@ -48,7 +48,8 @@
         "mvieira/collection-json": "dev-master",
         "mvieira/content-negotiation": "dev-master",
         "mvieira/imagery": "dev-master",
-        "fabpot/goutte": "~2.0"
+        "fabpot/goutte": "~2.0",
+        "gedmo/doctrine-extensions": "~2.4"
     },
     "require-dev": {
         "phpspec/phpspec": "~2.0",

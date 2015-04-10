@@ -4,6 +4,7 @@ namespace Siapi\IndexerBundle\Entity;
 
 use JsonSerializable;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Class Image
@@ -65,6 +66,22 @@ class Image implements JsonSerializable
      * @ORM\Column(type="string", length=255)
      */
     private $filename;
+
+    /**
+     * @var \DateTime $created
+     *
+     * @Gedmo\Timestampable(on="create")
+     * @ORM\Column(type="datetime")
+     */
+    private $created;
+
+    /**
+     * @var \DateTime $updated
+     *
+     * @Gedmo\Timestampable(on="update")
+     * @ORM\Column(type="datetime")
+     */
+    private $updated;
 
     /**
      * @return int
@@ -184,6 +201,22 @@ class Image implements JsonSerializable
     public function setFilename($filename)
     {
         $this->filename = $filename;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getCreated()
+    {
+        return $this->created;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getUpdated()
+    {
+        return $this->updated;
     }
 
     /**

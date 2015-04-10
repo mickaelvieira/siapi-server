@@ -20,8 +20,8 @@
         <parameter key="siapi_indexer.service_filename.class">Siapi\IndexerBundle\Service\FileName</parameter>
 
         <!-- Repositories and Entities classes -->
-        <parameter key="siapi_indexer.entity_indexerlog.class">Siapi\IndexerBundle\Entity\IndexerLog</parameter>
-        <parameter key="siapi_indexer.repository_indexerlog.class">Siapi\IndexerBundle\Repository\IndexerLogRepository</parameter>
+        <parameter key="siapi_indexer.entity_activity.class">Siapi\IndexerBundle\Entity\Activity</parameter>
+        <parameter key="siapi_indexer.repository_activity.class">Siapi\IndexerBundle\Repository\ActivityRepository</parameter>
 
         <parameter key="siapi_indexer.entity_document.class">Siapi\IndexerBundle\Entity\Document</parameter>
         <parameter key="siapi_indexer.repository_document.class">Siapi\IndexerBundle\Repository\DocumentRepository</parameter>
@@ -35,7 +35,7 @@
 
         <service id="siapi_indexer.service.generator"
                  class="%siapi_indexer.service_generator.class%">
-            <argument type="service" id="siapi_indexer.repository.indexerlog"/>
+            <argument type="service" id="siapi_indexer.repository.activity"/>
         </service>
 
         <service id="siapi_indexer.service.crawler"
@@ -56,17 +56,17 @@
                  class="%siapi_indexer.service_indexer.class%">
             <argument>%siapi_indexer.nasa.endpoint%</argument>
             <argument type="service" id="siapi_indexer.service.crawler" />
-            <argument type="service" id="siapi_indexer.repository.indexerlog" />
+            <argument type="service" id="siapi_indexer.repository.activity" />
             <argument type="service" id="siapi_indexer.repository.document" />
             <argument type="service" id="siapi_indexer.service.downloader" />
         </service>
 
         <!-- Repositories as a service -->
-        <service id="siapi_indexer.repository.indexerlog"
-                 class="%siapi_indexer.repository_indexerlog.class%"
+        <service id="siapi_indexer.repository.activity"
+                 class="%siapi_indexer.repository_activity.class%"
                  factory-service="doctrine"
                  factory-method="getRepository">
-            <argument>%siapi_indexer.entity_indexerlog.class%</argument>
+            <argument>%siapi_indexer.entity_activity.class%</argument>
         </service>
 
         <service id="siapi_indexer.repository.document"

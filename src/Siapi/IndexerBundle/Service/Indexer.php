@@ -4,7 +4,7 @@ namespace Siapi\IndexerBundle\Service;
 
 use Siapi\IndexerBundle\Entity\Document;
 use Siapi\IndexerBundle\Repository\DocumentRepository;
-use Siapi\IndexerBundle\Repository\IndexerLogRepository;
+use Siapi\IndexerBundle\Repository\ActivityRepository;
 
 /**
  * Class Indexer
@@ -28,9 +28,9 @@ final class Indexer
     private $downloader;
 
     /**
-     * @var \Siapi\IndexerBundle\Repository\IndexerLogRepository
+     * @var \Siapi\IndexerBundle\Repository\ActivityRepository
      */
-    private $logsRepository;
+    private $activitiesRepository;
 
     /**
      * @var \Siapi\IndexerBundle\Repository\DocumentRepository
@@ -40,20 +40,20 @@ final class Indexer
     /**
      * @param                                                      $endPoint
      * @param \Siapi\IndexerBundle\Service\Crawler                 $crawler
-     * @param \Siapi\IndexerBundle\Repository\IndexerLogRepository $logsRepository
+     * @param \Siapi\IndexerBundle\Repository\ActivityRepository $activitiesRepository
      * @param \Siapi\IndexerBundle\Repository\DocumentRepository   $documentsRepository
      * @param \Siapi\IndexerBundle\Service\Downloader                  $downloader
      */
     public function __construct(
         $endPoint,
         Crawler $crawler,
-        IndexerLogRepository $logsRepository,
+        ActivityRepository $activitiesRepository,
         DocumentRepository $documentsRepository,
         Downloader $downloader
     ) {
         $this->endPoint = (string)$endPoint;
         $this->crawler = $crawler;
-        $this->logsRepository = $logsRepository;
+        $this->activitiesRepository = $activitiesRepository;
         $this->documentsRepository = $documentsRepository;
         $this->downloader = $downloader;
     }
@@ -70,7 +70,7 @@ final class Indexer
 
         exit;*/
 
-        $logs = $this->logsRepository->getUnParsedIds(0, 10);
+        $logs = $this->activitiesRepository->getUnParsedIds(0, 10);
 
         foreach ($logs as $log) {
 
@@ -113,17 +113,5 @@ final class Indexer
 
 
 
-    }
-
-    /**
-     * @param array $data
-     */
-    private function onReceiveData(array $data)
-    {
-        if (isset($data['image'])) {
-            $filePath = $this->downloader->copyRemoteFile($data['image']);
-        }
-
-        var_dump($data);
     }
 }
