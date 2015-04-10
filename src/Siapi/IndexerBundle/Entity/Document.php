@@ -3,63 +3,148 @@
 namespace Siapi\IndexerBundle\Entity;
 
 use JsonSerializable;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
 
+/**
+ * Class Document
+ * @package Siapi\IndexerBundle\Entity
+ * @ORM\Entity(repositoryClass="Siapi\IndexerBundle\Repository\DocumentRepository")
+ * @ORM\Table(name="documents")
+ */
 class Document implements JsonSerializable
 {
     /**
+     * @var integer
+     * @ORM\Id()
+     * @ORM\Column(type="integer", length=11, unique=true, nullable=false)
+     * @ORM\GeneratedValue()
+     */
+    private $id;
+
+    /**
      * @var string
+     * @ORM\Column(type="string", length=255)
+     */
+    private $title;
+
+    /**
+     * @var string
+     * @ORM\Column(type="text")
+     */
+    private $description;
+
+    /**
+     * @var string
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $target;
 
     /**
      * @var string
+     * @ORM\Column(type="string", name="satellite_of", length=255, nullable=true)
      */
     private $satelliteOf;
 
     /**
      * @var string
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $mission;
 
     /**
      * @var string
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $spacecraft;
 
     /**
      * @var string
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $instrument;
 
     /**
      * @var string
+     * @ORM\Column(type="string", name="source_url", length=255)
      */
-    private $extra;
+    private $sourceUrl;
 
     /**
      * @var string
+     * @ORM\Column(type="string", name="image_url", length=255)
      */
-    private $source;
+    private $imageUrl;
 
     /**
-     * @var \Siapi\IndexerBundle\Entity\Image[]
+     * @var \Doctrine\Common\Collections\ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="\Siapi\IndexerBundle\Entity\Image", mappedBy="document")
+     **/
+    private $formats;
+
+    /**
+     *
      */
-    private $formats = [];
+    public function __construct()
+    {
+        $this->formats = new ArrayCollection();
+    }
+
+    /**
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
+     * @param mixed $title
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+    }
 
     /**
      * @return string
      */
-    public function getSource()
+    public function getDescription()
     {
-        return $this->source;
+        return $this->description;
     }
 
     /**
-     * @param string $author
+     * @param string $description
      */
-    public function setSource($author)
+    public function setDescription($description)
     {
-        $this->source = $author;
+        $this->description = $description;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSourceUrl()
+    {
+        return $this->sourceUrl;
+    }
+
+    /**
+     * @param string $sourceUrl
+     */
+    public function setSourceUrl($sourceUrl)
+    {
+        $this->sourceUrl = $sourceUrl;
     }
 
     /**
@@ -92,22 +177,6 @@ class Document implements JsonSerializable
     public function setTarget($target)
     {
         $this->target = $target;
-    }
-
-    /**
-     * @return string
-     */
-    public function getExtra()
-    {
-        return $this->extra;
-    }
-
-    /**
-     * @param string $extra
-     */
-    public function setExtra($extra)
-    {
-        $this->extra = $extra;
     }
 
     /**
@@ -175,11 +244,27 @@ class Document implements JsonSerializable
     }
 
     /**
+     * @return string
+     */
+    public function getImageUrl()
+    {
+        return $this->imageUrl;
+    }
+
+    /**
+     * @param string $imageUrl
+     */
+    public function setImageUrl($imageUrl)
+    {
+        $this->imageUrl = $imageUrl;
+    }
+
+    /**
      * @param Image $image
      */
     public function addFormat(Image $image)
     {
-        array_push($this->formats, $image);
+        $this->formats->add($image);
     }
 
     /**

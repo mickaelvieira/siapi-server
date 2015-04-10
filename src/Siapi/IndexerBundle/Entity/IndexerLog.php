@@ -9,7 +9,6 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="indexer_logs")
  * @ORM\Entity(repositoryClass="Siapi\IndexerBundle\Repository\IndexerLogRepository")
- * @ORM\ChangeTrackingPolicy("DEFERRED_EXPLICIT")
  */
 class IndexerLog
 {
@@ -28,7 +27,19 @@ class IndexerLog
     private $remoteId;
 
     /**
-     * @return integer 
+     * @var bool
+     * @ORM\Column(type="boolean", options={"default": false})
+     */
+    private $isEmpty;
+
+    /**
+     * @var bool
+     * @ORM\Column(type="boolean", options={"default": false})
+     */
+    private $isParsed;
+
+    /**
+     * @return integer
      */
     public function getId()
     {
@@ -49,5 +60,37 @@ class IndexerLog
     public function setRemoteId($remoteId)
     {
         $this->remoteId = $remoteId;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isIsEmpty()
+    {
+        return $this->isEmpty;
+    }
+
+    /**
+     * @param boolean $isEmpty
+     */
+    public function setIsEmpty($isEmpty)
+    {
+        $this->isEmpty = $isEmpty;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isIsParsed()
+    {
+        return $this->isParsed;
+    }
+
+    /**
+     * @param boolean $isParsed
+     */
+    public function setIsParsed($isParsed)
+    {
+        $this->isParsed = $isParsed;
     }
 }

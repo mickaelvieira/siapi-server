@@ -22,6 +22,13 @@
         <!-- Repositories and Entities classes -->
         <parameter key="siapi_indexer.entity_indexerlog.class">Siapi\IndexerBundle\Entity\IndexerLog</parameter>
         <parameter key="siapi_indexer.repository_indexerlog.class">Siapi\IndexerBundle\Repository\IndexerLogRepository</parameter>
+
+        <parameter key="siapi_indexer.entity_document.class">Siapi\IndexerBundle\Entity\Document</parameter>
+        <parameter key="siapi_indexer.repository_document.class">Siapi\IndexerBundle\Repository\DocumentRepository</parameter>
+
+        <parameter key="siapi_indexer.entity_image.class">Siapi\IndexerBundle\Entity\IndexerLog</parameter>
+        <parameter key="siapi_indexer.repository_image.class">Siapi\IndexerBundle\Repository\ImageRepository</parameter>
+
     </parameters>
 
     <services>
@@ -49,6 +56,8 @@
                  class="%siapi_indexer.service_indexer.class%">
             <argument>%siapi_indexer.nasa.endpoint%</argument>
             <argument type="service" id="siapi_indexer.service.crawler" />
+            <argument type="service" id="siapi_indexer.repository.indexerlog" />
+            <argument type="service" id="siapi_indexer.repository.document" />
             <argument type="service" id="siapi_indexer.service.images" />
         </service>
 
@@ -58,6 +67,13 @@
                  factory-service="doctrine"
                  factory-method="getRepository">
             <argument>%siapi_indexer.entity_indexerlog.class%</argument>
+        </service>
+
+        <service id="siapi_indexer.repository.document"
+                 class="%siapi_indexer.repository_document.class%"
+                 factory-service="doctrine"
+                 factory-method="getRepository">
+            <argument>%siapi_indexer.entity_document.class%</argument>
         </service>
 
         <!-- Commands as a service -->

@@ -23,26 +23,23 @@ final class Crawler
 
     /**
      * @param string $url
-     * @param callable $callback
      * @return array
      */
-    public function parse($url, callable $callback)
+    public function parse($url)
     {
         $information = [];
 
         $crawler = $this->client->request('GET', $url);
 
-        $information['title']   = trim($crawler->filter('h1.article_title')->text());
-        $information['content'] = trim($crawlerContent = $crawler->filter('.wysiwyg_content')->text());
+        $information['title']       = trim($crawler->filter('h1.article_title')->text());
+        $information['description'] = trim($crawler->filter('.wysiwyg_content')->text());
 
         $crawler = $crawler->filter('.image_detail_module');
 
         $details = $this->getInformation(clone $crawler);
         $images  = $this->getJpegUrl(clone $crawler);
 
-        $information = array_merge($information, $images, $details);
-
-        $callback($information);
+        return array_merge($information, $images, $details);
     }
 
     /**
@@ -51,7 +48,9 @@ final class Crawler
      */
     private function getJpegUrl($crawler)
     {
-        $images = [];
+        $images = [
+            'image' => ''
+        ];
 
         $crawler = $crawler->filter('div.download_tiff a');
         $links   = $crawler->links();
@@ -74,7 +73,12 @@ final class Crawler
      */
     private function getInformation($crawler)
     {
-        $information = [];
+        $information = [
+            'mission' => '',
+            'target' => '',
+            'spacecraft' => '',
+            'instrument' => ''
+        ];
 
         $crawler = $crawler->filter('div.mission');
         $details = $crawler->filter('p')->each(function (DomCrawler $node, $i) {
