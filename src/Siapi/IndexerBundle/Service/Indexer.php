@@ -23,9 +23,9 @@ final class Indexer
     private $crawler;
 
     /**
-     * @var \Siapi\IndexerBundle\Service\Images
+     * @var \Siapi\IndexerBundle\Service\Downloader
      */
-    private $images;
+    private $downloader;
 
     /**
      * @var \Siapi\IndexerBundle\Repository\IndexerLogRepository
@@ -42,20 +42,20 @@ final class Indexer
      * @param \Siapi\IndexerBundle\Service\Crawler                 $crawler
      * @param \Siapi\IndexerBundle\Repository\IndexerLogRepository $logsRepository
      * @param \Siapi\IndexerBundle\Repository\DocumentRepository   $documentsRepository
-     * @param \Siapi\IndexerBundle\Service\Images                  $images
+     * @param \Siapi\IndexerBundle\Service\Downloader                  $downloader
      */
     public function __construct(
         $endPoint,
         Crawler $crawler,
         IndexerLogRepository $logsRepository,
         DocumentRepository $documentsRepository,
-        Images $images
+        Downloader $downloader
     ) {
         $this->endPoint = (string)$endPoint;
         $this->crawler = $crawler;
         $this->logsRepository = $logsRepository;
         $this->documentsRepository = $documentsRepository;
-        $this->images = $images;
+        $this->downloader = $downloader;
     }
 
     public function process()
@@ -121,7 +121,7 @@ final class Indexer
     private function onReceiveData(array $data)
     {
         if (isset($data['image'])) {
-            $filePath = $this->images->copyRemoteFile($data['image']);
+            $filePath = $this->downloader->copyRemoteFile($data['image']);
         }
 
         var_dump($data);

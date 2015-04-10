@@ -3,8 +3,11 @@
 
 namespace Siapi\IndexerBundle\Service;
 
-
-final class Images
+/**
+ * Class Downloader
+ * @package Siapi\IndexerBundle\Service
+ */
+final class Downloader
 {
     /**
      * @var string
@@ -49,16 +52,28 @@ final class Images
         return $filePath;
     }
 
+    /**
+     * @param string $filePath
+     * @param string $data
+     */
     private function writeLocalData($filePath, $data)
     {
         file_put_contents($filePath, $data, FILE_APPEND);
     }
 
+    /**
+     * @param string $url
+     * @return string
+     */
     private function readRemoteData($url)
     {
         return file_get_contents($url);
     }
 
+    /**
+     * @param string $localDir
+     * @throws \Exception
+     */
     private function checkLocalDir($localDir)
     {
         $localDir = realpath($localDir) . "/";

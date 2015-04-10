@@ -6,7 +6,7 @@
 
     <parameters>
         <parameter key="siapi_indexer.nasa.endpoint">http://www.jpl.nasa.gov/spaceimages/details.php</parameter>
-        <parameter key="siapi_indexer.images.directory">/home/mickael/Development/siapi-server/web/images/</parameter>
+        <parameter key="siapi_indexer.downloader.directory">/tmp/</parameter>
 
         <!-- Command classes -->
         <parameter key="siapi_indexer.command_generator.class">Siapi\IndexerBundle\Command\GeneratorCommand</parameter>
@@ -16,7 +16,7 @@
         <parameter key="siapi_indexer.service_generator.class">Siapi\IndexerBundle\Service\Generator</parameter>
         <parameter key="siapi_indexer.service_indexer.class">Siapi\IndexerBundle\Service\Indexer</parameter>
         <parameter key="siapi_indexer.service_crawler.class">Siapi\IndexerBundle\Service\Crawler</parameter>
-        <parameter key="siapi_indexer.service_images.class">Siapi\IndexerBundle\Service\Images</parameter>
+        <parameter key="siapi_indexer.service_downloader.class">Siapi\IndexerBundle\Service\Downloader</parameter>
         <parameter key="siapi_indexer.service_filename.class">Siapi\IndexerBundle\Service\FileName</parameter>
 
         <!-- Repositories and Entities classes -->
@@ -26,7 +26,7 @@
         <parameter key="siapi_indexer.entity_document.class">Siapi\IndexerBundle\Entity\Document</parameter>
         <parameter key="siapi_indexer.repository_document.class">Siapi\IndexerBundle\Repository\DocumentRepository</parameter>
 
-        <parameter key="siapi_indexer.entity_image.class">Siapi\IndexerBundle\Entity\IndexerLog</parameter>
+        <parameter key="siapi_indexer.entity_image.class">Siapi\IndexerBundle\Entity\Image</parameter>
         <parameter key="siapi_indexer.repository_image.class">Siapi\IndexerBundle\Repository\ImageRepository</parameter>
 
     </parameters>
@@ -46,9 +46,9 @@
                  class="%siapi_indexer.service_filename.class%">
         </service>
 
-        <service id="siapi_indexer.service.images"
-                 class="%siapi_indexer.service_images.class%">
-            <argument>%siapi_indexer.images.directory%</argument>
+        <service id="siapi_indexer.service.downloader"
+                 class="%siapi_indexer.service_downloader.class%">
+            <argument>%siapi_indexer.downloader.directory%</argument>
             <argument type="service" id="siapi_indexer.service.filename" />
         </service>
 
@@ -58,7 +58,7 @@
             <argument type="service" id="siapi_indexer.service.crawler" />
             <argument type="service" id="siapi_indexer.repository.indexerlog" />
             <argument type="service" id="siapi_indexer.repository.document" />
-            <argument type="service" id="siapi_indexer.service.images" />
+            <argument type="service" id="siapi_indexer.service.downloader" />
         </service>
 
         <!-- Repositories as a service -->
