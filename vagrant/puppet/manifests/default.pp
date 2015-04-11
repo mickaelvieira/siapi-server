@@ -40,3 +40,8 @@ class { 'php::devel':
 class { 'php::pear':
   require => Class['php'],
 }
+
+class { 'rabbitmq':
+  port => '5672'
+}
+
